@@ -137,42 +137,20 @@ public class Sudoku {
 	}
 	
 	private void addLine(StringBuilder str) {
+		str.append("|");
 		for(int i = 0; i < rows; i++) {
-			str.append("—");
+			if(i != 0)
+				str.append("—");
 			for(int j = 0; j < cols; j++)
 				str.append("———");
 		}
-		str.append("—\n");
+		str.append("|\n");
 	}
 	
 	public Sudoku copy() {
 		Sudoku copy = new Sudoku(rows, cols);
 		copy.mat = this.mat.clone();
 		return copy;
-	}
-	
-	public static void main(String[] args) {
-		Sudoku s = new Sudoku(3, 3);
-		s.insert(3, 1, 4);
-		s.insert(2, 7, 8);
-		s.insert(9, 5, 5);
-		System.out.println(s);
-		
-		for(int i: s.possibleValues(6, 4))
-			System.out.print(i + " ");
-		System.out.println("\n");
-		for(int i: s.possibleValues(3, 8))
-			System.out.print(i + " ");
-		
-		s.insert(1, 1, 1);
-		s.insert(2, 1, 2);
-		System.out.println(s);
-		try {
-			System.out.println(s.getFirstEmpty());
-		} catch (PointNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 	
 }

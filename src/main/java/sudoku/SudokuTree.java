@@ -17,7 +17,7 @@ class SudokuTree {
 		this.s = s.copy();
 	}
 	
-	private boolean expand(Node parent) {
+	boolean expand(Node parent) {
 		if(frontier.contains(parent)) {
 			if(parent != null) {
 				s.insert(parent.data);
@@ -48,7 +48,7 @@ class SudokuTree {
 		return false;
 	}
 	
-	private void contract(Node child) {
+	void contract(Node child) {
 		if(child == null)
 			return;
 		
