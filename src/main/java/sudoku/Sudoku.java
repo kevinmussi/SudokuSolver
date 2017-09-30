@@ -47,14 +47,14 @@ public class Sudoku {
 	}
 	
 	void remove(int row, int col) {
-		if(row < 1 || row > rows*cols || col < 1 || col > rows*cols)
+		if(row < 1 || col < 1 || row > rows*cols || col > rows*cols)
 			throw new IllegalArgumentException();
 		
 		mat[row-1][col-1] = 0;
 	}
 	
 	int get(int row, int col) {
-		if(row < 1 || col < 1 || row > rows || col > cols)
+		if(row < 1 || col < 1 || row > rows*cols || col > rows*cols)
 			throw new IllegalArgumentException();
 		return mat[row-1][col-1];
 	}

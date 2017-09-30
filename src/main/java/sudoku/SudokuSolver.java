@@ -17,6 +17,9 @@ public class SudokuSolver {
 	public Sudoku solve() {
 		while(!tree.frontier.isEmpty()) {
 			sudoku.SudokuSolver.SudokuTree.Node node = tree.nextNode();
+			System.out.println("----------------------------------------");
+			System.out.println("Next node: " + node);
+			
 			Optional<Boolean> result = tree.expand(node);
 			
 			if(result.isPresent()) {
@@ -26,6 +29,7 @@ public class SudokuSolver {
 			} else {
 				return tree.s.copy();
 			}
+			System.out.println("----------------------------------------");
 		}
 		
 		return null;
@@ -52,6 +56,7 @@ public class SudokuSolver {
 		Optional<Boolean> expand(Node parent) {
 			System.out.println(s);
 			System.out.println(frontier);
+			
 			if(frontier.contains(parent)) {
 				if(parent != null) {
 					s.insert(parent.data);
@@ -70,8 +75,9 @@ public class SudokuSolver {
 				
 				List<Integer> possible = s.possibleValues(p.getRow(), p.getCol());
 				
-				if(possible.isEmpty())
+				if(possible.isEmpty()) {
 					return Optional.of(false);
+				}
 				
 				for(int n: possible) {
 					children.add(new Node(new Point(n, p.getRow(), p.getCol()), parent));
@@ -92,15 +98,26 @@ public class SudokuSolver {
 				return;
 			
 			Node current = child;
+			boolean opt = true;
+			
+			System.out.println("Removing node: " + current);
+			
+			while(frontier.contains(current)) {
+				s.remove(current.data.getRow(), current.data.getCol());
+				frontier.remove(current);
+				current = current.parent;
+				opt = false;
+			}
 			
 			while(current != null && !frontier.contains(current)) {
+				System.out.println("Removing node: " + current);
+				
 				s.remove(current.data.getRow(), current.data.getCol());
-				current = child.parent;
+				current = current.parent;
 			}
 			
-			if(frontier.contains(current)) {
+			if(opt)
 				frontier.remove(current);
-			}
 		}
 		
 		@Override
