@@ -32,12 +32,18 @@ public class Sudoku {
 		if(val < 1 || val > rows*cols || row < 1 || row > rows*cols || col < 1 || col > rows*cols)
 			throw new IllegalArgumentException();
 		
+		if(mat[row-1][col-1] != 0)
+			throw new IllegalArgumentException();
+		
+		if(!possibleValues(row, col).contains(val))
+			throw new IllegalArgumentException();
+		
 		mat[row-1][col-1] = val;
 	}
 	
 	void insert(Point p) {
 		if(p != null)
-			insert(p.getValue(), p.getX(), p.getY());
+			insert(p.getValue(), p.getRow(), p.getCol());
 	}
 	
 	void remove(int row, int col) {
@@ -53,9 +59,9 @@ public class Sudoku {
 		return mat[row-1][col-1];
 	}
 	
-	Integer[] possibleValues(int row, int col) {
+	List<Integer> possibleValues(int row, int col) {
 		if(mat[row-1][col-1] != 0)
-			return new Integer[]{};
+			return new ArrayList<>();
 		
 		List<Integer> values = new ArrayList<>();
 		
@@ -88,14 +94,14 @@ public class Sudoku {
 			}
 		}
 		
-		return values.toArray(new Integer[0]);
+		return values;
 	}
 	
 	Point getFirstEmpty() throws PointNotFoundException {
 		for(int i = 0; i < rows*cols; i++)
 			for(int j = 0; j < rows*cols; j++)
 				if(mat[i][j] == 0)
-					return new Point(0, i, j);
+					return new Point(0, i+1, j+1);
 		
 		throw new PointNotFoundException();
 	}
@@ -157,6 +163,16 @@ public class Sudoku {
 		System.out.println("\n");
 		for(int i: s.possibleValues(3, 8))
 			System.out.print(i + " ");
+		
+		s.insert(1, 1, 1);
+		s.insert(2, 1, 2);
+		System.out.println(s);
+		try {
+			System.out.println(s.getFirstEmpty());
+		} catch (PointNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 }

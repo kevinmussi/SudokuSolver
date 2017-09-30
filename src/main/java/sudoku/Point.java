@@ -3,30 +3,30 @@ package sudoku;
 public class Point {
 	
 	private int val;
-	private int x;
-	private int y;
+	private int row;
+	private int col;
 	
-	public Point(int val, int x, int y) {
+	public Point(int val, int row, int col) {
 		this.val = val;
-		this.x = x;
-		this.y = y;
+		this.row = row;
+		this.col = col;
 	}
 	
 	public int getValue() {
 		return val;
 	}
 	
-	public int getX() {
-		return x;
+	public int getRow() {
+		return row;
 	}
 	
-	public int getY() {
-		return y;
+	public int getCol() {
+		return col;
 	}
 	
 	@Override
 	public String toString() {
-		return "(" + x + ", " + y + ") = " + val;
+		return "(" + row + ", " + col + ") = " + val;
 	}
 	
 }
