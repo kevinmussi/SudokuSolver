@@ -62,17 +62,17 @@ public class Sudoku {
 		for(int i = 1; i <= rows*cols; i++)
 			values.add(i);
 		
-		for(int j = 0; j < cols; j++) {
+		for(int j = 0; j < rows*cols; j++) {
 			int val = mat[row-1][j];
 			if(val != 0) {
-				values.remove(val);
+				values.remove((Integer) val);
 			}
 		}
 		
-		for(int i = 0; i < rows; i++) {
-			int val = mat[i][cols-1];
+		for(int i = 0; i < rows*cols; i++) {
+			int val = mat[i][col-1];
 			if(val != 0) {
-				values.remove(val);
+				values.remove((Integer) val);
 			}
 		}
 		
@@ -83,7 +83,7 @@ public class Sudoku {
 			for(int j = x*cols; j < (x+1)*cols; j++) {
 				int val = mat[i][j];
 				if(val != 0) {
-					values.remove(val);
+					values.remove((Integer) val);
 				}
 			}
 		}
@@ -101,7 +101,7 @@ public class Sudoku {
 	}
 	
 	@Override
-	public String toString() { //NOSONAR
+	public String toString() {
 		StringBuilder str = new StringBuilder();
 		
 		for(int i = 0; i < rows*cols; i++) {
@@ -115,10 +115,10 @@ public class Sudoku {
 				}
 				
 				str.append(" ");
-				//if(mat[i][j] != 0)
+				if(mat[i][j] != 0)
 					str.append(mat[i][j]);
-				//else
-					//str.append(" ");
+				else
+					str.append(" ");
 				str.append(" ");
 			}
 			
@@ -152,7 +152,10 @@ public class Sudoku {
 		s.insert(9, 5, 5);
 		System.out.println(s);
 		
-		for(int i: s.possibleValues(1, 3))
+		for(int i: s.possibleValues(6, 4))
+			System.out.print(i + " ");
+		System.out.println("\n");
+		for(int i: s.possibleValues(3, 8))
 			System.out.print(i + " ");
 	}
 	
