@@ -15,10 +15,12 @@ public class SudokuSolver {
 	}
 	
 	public Sudoku solve() {
+		int count = 0;
+		
 		while(!tree.frontier.isEmpty()) {
+			count++;
+			
 			sudoku.SudokuSolver.SudokuTree.Node node = tree.nextNode();
-			System.out.println("----------------------------------------");
-			System.out.println("Next node: " + node);
 			
 			Optional<Boolean> result = tree.expand(node);
 			
@@ -27,9 +29,9 @@ public class SudokuSolver {
 					tree.contract(node);
 				}
 			} else {
+				System.out.println("Number of steps: " + count + ".\n");
 				return tree.s.copy();
 			}
-			System.out.println("----------------------------------------");
 		}
 		
 		return null;
@@ -54,9 +56,6 @@ public class SudokuSolver {
 		}
 		
 		Optional<Boolean> expand(Node parent) {
-			System.out.println(s);
-			System.out.println(frontier);
-			
 			if(frontier.contains(parent)) {
 				if(parent != null) {
 					s.insert(parent.data);
@@ -94,30 +93,16 @@ public class SudokuSolver {
 		}
 		
 		void contract(Node child) {
-			if(child == null)
-				return;
-			
 			Node current = child;
-			boolean opt = true;
 			
-			System.out.println("Removing node: " + current);
-			
-			while(frontier.contains(current)) {
+			while(current != null && current.childrencount == 0) {
 				s.remove(current.data.getRow(), current.data.getCol());
 				frontier.remove(current);
 				current = current.parent;
-				opt = false;
-			}
-			
-			while(current != null && !frontier.contains(current)) {
-				System.out.println("Removing node: " + current);
 				
-				s.remove(current.data.getRow(), current.data.getCol());
-				current = current.parent;
+				if(current.parent != null)
+					current.childrencount--;
 			}
-			
-			if(opt)
-				frontier.remove(current);
 		}
 		
 		@Override
@@ -129,12 +114,18 @@ public class SudokuSolver {
 			
 			private Point data;
 			private Node parent;
+			private int childrencount;
 			
 			private Node(Point data, Node parent) {
 				if(data == null)
 					throw new IllegalArgumentException();
+				
 				this.data = data;
 				this.parent = parent;
+				this.childrencount = 0;
+				
+				if(parent != null)
+					parent.childrencount++;
 			}
 			
 			@Override

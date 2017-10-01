@@ -28,9 +28,20 @@ public class Sudoku {
 		}
 	}
 	
-	void insert(int val, int row, int col) {
-		if(val < 1 || val > rows*cols || row < 1 || row > rows*cols || col < 1 || col > rows*cols)
+	void checkConstraints(int row, int col) {
+		if(row < 1 || row > rows*cols || col < 1 || col > rows*cols)
 			throw new IllegalArgumentException();
+	}
+	
+	void checkConstraints(int val, int row, int col) {
+		checkConstraints(row, col);
+		
+		if(val < 1 || val > rows*cols)
+			throw new IllegalArgumentException();
+	}
+	
+	void insert(int val, int row, int col) {
+		checkConstraints(val, row, col);
 		
 		if(mat[row-1][col-1] != 0)
 			throw new IllegalArgumentException();
@@ -47,15 +58,14 @@ public class Sudoku {
 	}
 	
 	void remove(int row, int col) {
-		if(row < 1 || col < 1 || row > rows*cols || col > rows*cols)
-			throw new IllegalArgumentException();
+		checkConstraints(row, col);
 		
 		mat[row-1][col-1] = 0;
 	}
 	
 	int get(int row, int col) {
-		if(row < 1 || col < 1 || row > rows*cols || col > rows*cols)
-			throw new IllegalArgumentException();
+		checkConstraints(row, col);
+		
 		return mat[row-1][col-1];
 	}
 	
