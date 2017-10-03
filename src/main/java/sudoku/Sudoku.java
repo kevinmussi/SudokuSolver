@@ -1,13 +1,16 @@
 package sudoku;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Sudoku {
+public class Sudoku implements Serializable {
 	
-	private int rows;
-	private int cols;
-	private int mat[][];
+	private static final long serialVersionUID = 2792775316744026313L;
+	
+	public final int rows;
+	public final int cols;
+	private int[][] mat;
 	
 	public Sudoku(int rows, int cols) {
 		if(rows < 1 || cols < 1)
@@ -17,10 +20,10 @@ public class Sudoku {
 		this.cols = cols;
 		this.mat = new int[rows*cols][rows*cols];
 		
-		erase();
+		clear();
 	}
 	
-	void erase() {
+	public void clear() {
 		for(int i = 0; i < rows*cols; i++) {
 			for(int j = 0; j < rows*cols; j++) {
 				mat[i][j] = 0;
@@ -28,19 +31,19 @@ public class Sudoku {
 		}
 	}
 	
-	void checkConstraints(int row, int col) {
+	public void checkConstraints(int row, int col) {
 		if(row < 1 || row > rows*cols || col < 1 || col > rows*cols)
 			throw new IllegalArgumentException();
 	}
 	
-	void checkConstraints(int val, int row, int col) {
+	public void checkConstraints(int val, int row, int col) {
 		checkConstraints(row, col);
 		
 		if(val < 1 || val > rows*cols)
 			throw new IllegalArgumentException();
 	}
 	
-	void insert(int val, int row, int col) {
+	public void insert(int val, int row, int col) {
 		checkConstraints(val, row, col);
 		
 		if(mat[row-1][col-1] != 0)
@@ -52,24 +55,24 @@ public class Sudoku {
 		mat[row-1][col-1] = val;
 	}
 	
-	void insert(Point p) {
+	public void insert(Point p) {
 		if(p != null)
 			insert(p.getValue(), p.getRow(), p.getCol());
 	}
 	
-	void remove(int row, int col) {
+	public void remove(int row, int col) {
 		checkConstraints(row, col);
 		
 		mat[row-1][col-1] = 0;
 	}
 	
-	int get(int row, int col) {
+	public int get(int row, int col) {
 		checkConstraints(row, col);
 		
 		return mat[row-1][col-1];
 	}
 	
-	List<Integer> possibleValues(int row, int col) {
+	public List<Integer> possibleValues(int row, int col) {
 		if(mat[row-1][col-1] != 0)
 			return new ArrayList<>();
 		
@@ -107,7 +110,7 @@ public class Sudoku {
 		return values;
 	}
 	
-	Point getFirstEmpty() throws PointNotFoundException {
+	public Point getFirstEmpty() throws PointNotFoundException {
 		for(int i = 0; i < rows*cols; i++)
 			for(int j = 0; j < rows*cols; j++)
 				if(mat[i][j] == 0)

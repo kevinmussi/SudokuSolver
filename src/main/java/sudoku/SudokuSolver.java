@@ -136,19 +136,4 @@ public class SudokuSolver {
 		}
 	}
 	
-	public static void main(String[] args) {
-		Sudoku s = new Sudoku(3, 3);
-		s.insert(3, 1, 4);
-		s.insert(2, 7, 8);
-		s.insert(9, 5, 5);
-		s.insert(1, 1, 1);
-		s.insert(2, 1, 2);
-		System.out.println(s);
-		
-		SudokuSolver solver = new SudokuSolver(s);
-		s = solver.solve();
-		
-		System.out.println(s);
-	}
-	
 }
