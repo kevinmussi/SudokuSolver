@@ -7,6 +7,7 @@ import java.util.Optional;
 public class SudokuSolver {
 	
 	private SudokuTree tree;
+	private int steps = 0;
 	
 	public SudokuSolver(Sudoku s) {
 		if(s == null)
@@ -29,12 +30,16 @@ public class SudokuSolver {
 					tree.contract(node);
 				}
 			} else {
-				System.out.println("Number of steps: " + count + ".\n");
+				steps = count;
 				return tree.s.copy();
 			}
 		}
 		
 		return null;
+	}
+	
+	public int steps() {
+		return steps;
 	}
 	
 	private class SudokuTree {

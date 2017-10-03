@@ -6,6 +6,7 @@ import java.awt.Font;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 
 import sudoku.Point;
 import sudoku.Sudoku;
@@ -18,6 +19,7 @@ public class SudokuFrame extends JFrame { //NOSONAR
 	private Sudoku s;
 	
 	private SudokuButton[][] buttons;
+	private JTextArea text;
 	
 	public SudokuFrame(int rows, int cols) {
 		this.s = new Sudoku(rows, cols);
@@ -48,7 +50,7 @@ public class SudokuFrame extends JFrame { //NOSONAR
 		}
 		
 		JButton solve = new JButton("SOLVE");
-		solve.setBounds(this.getWidth()-220, this.getHeight()-45, 100, 40);
+		solve.setBounds(this.getWidth()-190, this.getHeight()-45, 90, 40);
 		solve.setFont(new Font("Calibri", Font.BOLD, 18));
 		solve.setVisible(true);
 		solve.setOpaque(true);
@@ -56,7 +58,7 @@ public class SudokuFrame extends JFrame { //NOSONAR
 		this.add(solve);
 		
 		JButton clear = new JButton("CLEAR");
-		clear.setBounds(this.getWidth()-110, this.getHeight()-45, 100, 40);
+		clear.setBounds(this.getWidth()-95, this.getHeight()-45, 90, 40);
 		clear.setFont(new Font("Calibri", Font.BOLD, 18));
 		clear.setVisible(true);
 		clear.setOpaque(true);
@@ -76,6 +78,12 @@ public class SudokuFrame extends JFrame { //NOSONAR
 			r.addHorizontalRectangle(i*(rows*SudokuButton.DIMENSION + RectanglesPanel.LOW_DIMENSION), this.getWidth());
 		}
 		
+		text = new JTextArea("");
+		text.setEditable(false);
+		text.setBounds(5, this.getHeight()-45, 150, 40);
+		text.setFont(new Font("Calibri", Font.BOLD, 16));
+		contentPane.add(text);
+		
 		this.setResizable(false);
 		this.pack();
 		this.setVisible(true);
@@ -94,11 +102,14 @@ public class SudokuFrame extends JFrame { //NOSONAR
 	}
 	
 	private void solve() {
-		System.out.println(s);
+		long begin = System.currentTimeMillis();
 		
-		s = new SudokuSolver(s).solve();
+		SudokuSolver solver = new SudokuSolver(s);
+		s = solver.solve();
 		
-		System.out.println(s);
+		long elapsed = System.currentTimeMillis() - begin;
+		
+		text.setText("Time elapsed: " + elapsed + " ms\nNumber of cycles: " + solver.steps());
 		
 		for(int i = 0; i < s.rows*s.cols; i++) {
 			for(int j = 0; j < s.rows*s.cols; j++) {
@@ -109,6 +120,7 @@ public class SudokuFrame extends JFrame { //NOSONAR
 	
 	private void clear() {
 		s.clear();
+		text.setText("");
 		
 		for(int i = 0; i < s.rows*s.cols; i++) {
 			for(int j = 0; j < s.rows*s.cols; j++) {

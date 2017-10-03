@@ -31,8 +31,8 @@ public class SudokuSolverApp {
 			return showInputDialog(text);
 		}
 		
-		if(n < 2) {
-			SudokuButton.showDialog("The value inserted must be greater than 1!", JOptionPane.WARNING_MESSAGE);
+		if(n < 3) {
+			SudokuButton.showDialog("The value inserted must be greater than 2!", JOptionPane.WARNING_MESSAGE);
 			return showInputDialog(text);
 		}
 		
