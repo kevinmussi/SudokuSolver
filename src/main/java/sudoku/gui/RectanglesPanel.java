@@ -10,7 +10,7 @@ public class RectanglesPanel extends JPanel {
 	
 	private static final long serialVersionUID = 1236676772318320163L;
 	
-	static final int LOW_DIMENSION = 5;
+	static final int LOW_DIMENSION = 4;
 	
 	private static class Rectangle {
 		final int x;

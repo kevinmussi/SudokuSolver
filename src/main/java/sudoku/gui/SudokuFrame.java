@@ -24,7 +24,7 @@ public class SudokuFrame extends JFrame { //NOSONAR
 		this.buttons = new SudokuButton[rows*cols][rows*cols];
 		
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setPreferredSize(new Dimension(
+		this.setSize(new Dimension(
 				SudokuButton.DIMENSION*rows*cols + RectanglesPanel.LOW_DIMENSION*(rows+1),
 				SudokuButton.DIMENSION*rows*cols + RectanglesPanel.LOW_DIMENSION*(cols+1) + 50));
 		
@@ -39,15 +39,31 @@ public class SudokuFrame extends JFrame { //NOSONAR
 		for(int i = 0; i < rows*cols; i++) {
 			for(int j = 0; j < rows*cols; j++) {
 				SudokuButton button = new SudokuButton(this,
-						j*SudokuButton.DIMENSION + (Math.floorDiv(j, rows)+1)*RectanglesPanel.LOW_DIMENSION,
-						i*SudokuButton.DIMENSION + (Math.floorDiv(i, cols)+1)*RectanglesPanel.LOW_DIMENSION,
+						j*SudokuButton.DIMENSION + (Math.floorDiv(j, cols)+1)*RectanglesPanel.LOW_DIMENSION,
+						i*SudokuButton.DIMENSION + (Math.floorDiv(i, rows)+1)*RectanglesPanel.LOW_DIMENSION,
 						i+1, j+1);
 				contentPane.add(button);
 				buttons[i][j] = button;
 			}
 		}
 		
-		/*RectanglesPanel r = new RectanglesPanel();
+		JButton solve = new JButton("SOLVE");
+		solve.setBounds(this.getWidth()-220, this.getHeight()-45, 100, 40);
+		solve.setFont(new Font("Calibri", Font.BOLD, 18));
+		solve.setVisible(true);
+		solve.setOpaque(true);
+		solve.addActionListener(event -> solve());
+		this.add(solve);
+		
+		JButton clear = new JButton("CLEAR");
+		clear.setBounds(this.getWidth()-110, this.getHeight()-45, 100, 40);
+		clear.setFont(new Font("Calibri", Font.BOLD, 18));
+		clear.setVisible(true);
+		clear.setOpaque(true);
+		clear.addActionListener(event -> clear());
+		this.add(clear);
+		
+		RectanglesPanel r = new RectanglesPanel();
 		contentPane.add(r);
 		r.setBounds(0, 0, this.getWidth(), this.getHeight());
 		r.setVisible(true);
@@ -58,33 +74,9 @@ public class SudokuFrame extends JFrame { //NOSONAR
 		
 		for(int i = 0; i <= cols; i++) {
 			r.addHorizontalRectangle(i*(rows*SudokuButton.DIMENSION + RectanglesPanel.LOW_DIMENSION), this.getWidth());
-		}*/
+		}
 		
-		JButton solve = new JButton("Solve");
-		solve.setBounds(this.getWidth()-220, this.getHeight()-45, 100, 40);
-		solve.setFont(new Font("Calibri", Font.BOLD, 18));
-		solve.setVisible(true);
-		solve.setOpaque(true);
-		solve.addActionListener(event -> solve());
-		
-		JButton clear = new JButton("Clear");
-		clear.setBounds(this.getWidth()-110, this.getHeight()-45, 100, 40);
-		clear.setFont(new Font("Calibri", Font.BOLD, 18));
-		clear.setVisible(true);
-		clear.setOpaque(true);
-		clear.addActionListener(event -> clear());
-		
-		this.add(solve);
-		this.add(clear);
-		
-		/*JPanel panel = new JPanel();
-		contentPane.add(panel);
-		panel.setBounds(0, this.getHeight()-40, this.getWidth(), 40);
-		panel.add(solve);
-		panel.add(clear);
-		panel.setVisible(true);*/
-		
-		//this.setResizable(false);
+		this.setResizable(false);
 		this.pack();
 		this.setVisible(true);
 	}

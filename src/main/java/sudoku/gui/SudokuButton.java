@@ -34,7 +34,7 @@ public class SudokuButton extends JButton { //NOSONAR
 		this.setBackground(Color.WHITE);
 		this.setOpaque(true);
 		this.setBorder(new CompoundBorder(new LineBorder(Color.BLACK), new EmptyBorder(5, 5, 5, 5)));
-		this.setFont(new Font("Calibri", Font.BOLD, 18));
+		this.setFont(new Font("Calibri", Font.BOLD, 22));
 		this.setVisible(true);
 		this.addActionListener(event -> showInputDialog());
 	}
